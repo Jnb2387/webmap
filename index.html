@@ -1,0 +1,320 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Work App</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js"></script>
+        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css" rel="stylesheet">
+        <link href="https://www.mapbox.com/base/latest/base.css" rel="stylesheet">
+        <link href="style.css" rel="stylesheet">
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css" type="text/css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js"></script>
+        </head>
+    <body>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col-xs-12 col-md-9 mapboxgl-map" id="map"><div class="mapboxgl-canvas-container mapboxgl-interactive mapboxgl-touch-drag-pan mapboxgl-touch-zoom-rotate"><canvas class="mapboxgl-canvas" style="position: absolute; width: 1385px; height: 379px;" tabindex="0" aria-label="Map" width="1385" height="379"></canvas><div class="mapboxgl-user-location-dot mapboxgl-marker" style="transform: translate(680px, 228px);"></div></div><div class="mapboxgl-control-container"><div class="mapboxgl-ctrl-top-left"><div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in" type="button" aria-label="Zoom In"></button><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out" type="button" aria-label="Zoom Out"></button><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-compass" type="button" aria-label="Reset North"><span class="mapboxgl-ctrl-compass-arrow" style="transform: rotate(0deg);"></span></button></div></div><div class="mapboxgl-ctrl-top-right"><div class="mapboxgl-ctrl-geocoder mapboxgl-ctrl"><span class="geocoder-icon geocoder-icon-search"></span><input placeholder="Search" type="text"><ul class="suggestions" style="display: none;"></ul><div class="geocoder-pin-right"><button class="geocoder-icon geocoder-icon-close" aria-label="Clear"></button><span class="geocoder-icon geocoder-icon-loading"></span></div></div><div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-geolocate mapboxgl-ctrl-geolocate-background" type="button" aria-label="Geolocate" aria-pressed="true"></button></div></div><div class="mapboxgl-ctrl-bottom-left"><div class="mapboxgl-ctrl mapboxgl-ctrl-scale" style="width: 62.2048px;">2mi</div><div class="mapboxgl-ctrl" style="display: block;"><a class="mapboxgl-ctrl-logo" target="_blank" href="https://www.mapbox.com/" aria-label="Mapbox logo"></a></div></div><div class="mapboxgl-ctrl-bottom-right"><div class="mapboxgl-ctrl mapboxgl-ctrl-attrib"><a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/feedback/?owner=mapbox&amp;id=streets-v10&amp;access_token=pk.eyJ1Ijoiam5iMjM4NyIsImEiOiJjaW8zb2o2bDkwMWJudmJsempjaHBvc2hrIn0.gxSz_BeDIJlbDrKExBPaEQ" target="_blank">Improve this map</a></div></div></div></div>
+
+            <a href="#" class="button icon sun btnpad" id="sidepanelbtn">Toggle Sidepanel</a>
+
+            <div class="col-xs-12 col-md-3" id="sidepanel" style="">
+                <h4 class="text-center">Features</h4>
+                <!--To change the map paint properties-->
+                <input id="myinput"> 
+                <a href="#" id="btn" class="button icon sun btnpad">Change Color</a>
+                <!--Interaction Buttons-->
+                <a href="#" class="button icon sun btnpad" id="urbanbtn">Remove Urban</a>
+                <a href="#" class="button icon sun btnpad" id="getAjax">Get AJAX Data</a>
+                <a href="#" class="button icon sun btnpad" id="parcelbtn">Parcel Button</a>
+                <a href="#" class="button icon sun btnpad" id="demobtn">Demographics Button</a>
+                
+                <!--<div id='listings' class='listings'></div>-->
+
+                <!--Shows the JSON for any feature in the vector tile that is clicked on-->
+                <pre id="allfeatures"></pre>
+            </div>
+            <!--Content displayed on the right-->
+            <div class="map-overlay" id="features">
+                <h2 id="censustitle">Denver Census Info</h2>
+                <div id="pd"><p>Hover over a Census Area</p></div>
+            </div>
+            <div class="map-overlay" id="legend"></div>
+        </div>
+    </div>
+
+
+
+    <script>
+        //Set up the map canvas
+        mapboxgl.accessToken = 'pk.eyJ1Ijoiam5iMjM4NyIsImEiOiJjaW8zb2o2bDkwMWJudmJsempjaHBvc2hrIn0.gxSz_BeDIJlbDrKExBPaEQ';
+        var map = new mapboxgl.Map({
+            container: 'map',
+            style: 'mapbox://styles/mapbox/streets-v10',
+            center: [-105.04, 39.757],
+            zoom: 7
+        });
+//======Adding Controls to the Map.
+        //Add the Geocoder.
+        var geocoder = new MapboxGeocoder({
+            accessToken: mapboxgl.accessToken
+        });
+        map.addControl(geocoder);
+        //Add the zoom and nav controls.
+        var nav = new mapboxgl.NavigationControl();
+        map.addControl(nav, 'top-left');
+        // Add geolocate control to the map.
+        map.addControl(new mapboxgl.GeolocateControl({
+            positionOptions: {
+                enableHighAccuracy: true
+            },
+            trackUserLocation: true
+        }));
+        //Add Scalebar.
+        map.addControl(new mapboxgl.ScaleControl({
+            maxWidth: 80,
+            unit: 'imperial'
+        }));
+//=======End Controls
+
+        // When the map loads then run all this.
+        map.on('load', function () {
+        //When the user clicks on the map query every feature where the click was.
+        map.on('click', function (e) {
+            var features = map.queryRenderedFeatures(e.point);//set the click point feature to the variable.
+            let info = {};// create object to hold the data
+            let feature = features[0];// grab the first index of the features.
+            if (feature.properties) {
+                info.properties = feature.properties;// if the feature has properties set the properties to the info object
+            }
+            if (feature.layer) {// this is the map.add and map.source info.
+                info.layer = feature.layer;
+            }
+            //Display the query data in the pre tag.
+            document.getElementById('allfeatures').innerHTML = JSON.stringify(info, null, 2);
+        });
+
+//=======Geocode Point        
+            //Adding the Source of just GeoJSON for the geocoder point
+            map.addSource('geocode-point', {
+                "type": "geojson",
+                "data": {
+                    "type": "FeatureCollection",
+                    "features": []
+                }
+            });
+            // takes the source of the geocode-point and adds it to the map.
+            map.addLayer({
+                "id": "point",
+                "source": "geocode-point",
+                "type": "circle",
+                "paint": {
+                    "circle-radius": 10,
+                    "circle-color": "#007cbf"
+                }
+            });
+            // Listen for the `geocoder.input` event that is triggered when a user
+            // makes a selection and add a symbol that matches the result.
+            geocoder.on('result', function (ev) {
+                console.log(ev)
+                map.getSource('geocode-point').setData(ev.result.geometry);//grab the source set above and set the location to the click spot
+            });
+//=====End Geocode Point
+
+//======LAYERS
+            //Add 3D buildings layer.
+            map.addLayer({
+                'id': '3d-buildings',
+                'source': 'composite',
+                'source-layer': 'building',
+                'filter': ['==', 'extrude', 'true'],
+                'type': 'fill-extrusion',
+                'minzoom': 15,
+                'paint': {
+                    'fill-extrusion-color': '#aaa',
+                    'fill-extrusion-height': {
+                        'type': 'identity',
+                        'property': 'height'
+                    },
+                    'fill-extrusion-base': {
+                        'type': 'identity',
+                        'property': 'min_height'
+                    },
+                    'fill-extrusion-opacity': .6
+                }
+            });
+
+            //Bus Routes Vector tile hosted in mapbox studio
+            // map.addSource('routes', {
+            //     "type": "vector",
+            //     "url": 'mapbox://jnb2387.2290rbfz'
+            // });
+            map.addLayer({
+                "id": "routes",
+                'type': 'line',
+                // "source": "routes",
+                'source': {
+                    "type": "vector",
+                    "url": 'mapbox://jnb2387.2290rbfz'
+                },
+                'source-layer': 'BusRoutes-d74880',
+                "layout": {
+                    'visibility': 'visible',
+                    "line-join": "round",
+                    "line-cap": "round"
+                },
+                "paint": {
+                    "line-color": "blue",
+                    "line-width": 2
+                }
+            }, "road-label-small");
+
+            //MAYBE delete
+            //The Urban outline Layer
+            var mylayer = map.addLayer({
+                'id': 'urban-areas-fill',
+                'type': 'fill',
+                'source': {
+                    'type': 'geojson',
+                    'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson'
+                },
+                'layout': {},
+                'paint': {
+                    'fill-color': '#f08',
+                    'fill-opacity': 0.4
+                }
+            }, 'routes');
+            //Parcel Vector Tile layer
+            map.addSource('denverparcel', {
+                "type": "vector",
+                "url": 'mapbox://jnb2387.7y3xkv6c'
+            });
+            map.addLayer({
+                "id": "denverparcel",
+                'type': 'fill',
+                "source": "denverparcel",
+                'source-layer': 'DenverParcels-914hr4',
+                "layout": {
+                    'visibility': 'visible',
+                },
+                "paint": {
+                    'fill-color': 'red',
+                    'fill-opacity': 0.4,
+                    'fill-outline-color': 'black'
+                }
+            }, "routes");
+            //Denver Demographics Layer
+            map.addSource('demo', {
+                "type": "vector",
+                "url": 'mapbox://jnb2387.3kzsjc32'
+            });
+            map.on('mousemove', function (e) {//when the user moves the mouse
+                var demographics = map.queryRenderedFeatures(e.point, {//query where the user moved for features set it to a variable
+                    layers: ['demo','routes']// the layers to query when the user moves
+                });
+                if (demographics.length > 0) {//if there is any features that are returned in the query set the info in the pd element.
+
+                    document.getElementById('pd').innerHTML = '<h4><strong>Census Neighborhood: </strong><em>' + 
+                    demographics[0].properties.NBRHD_NAME + '</em></h4> \n <p><strong><em>Population: </strong>' + 
+                    demographics[0].properties.POPULATION + '</em></p> \n <p><strong><em>' + demographics[0].properties.WHITE_2010 + '</strong> Number of White</em></p><p><strong><em>' + demographics[0].properties.BLACK_2010 + '</strong> Number of African Americans</em></p>';
+
+                } else {// if there are no features under the move location.
+                    document.getElementById('pd').innerHTML = '<p>Hover over a Census Area</p>';
+                }
+            });
+            map.addLayer({
+                "id": "demo",
+                'type': 'fill',
+                "source": "demo",
+                'source-layer': 'census_neighborhood_demograph-bnbntm',
+                "layout": {
+                    'visibility': 'visible',
+                },
+                "paint": {
+                    'fill-color': 'blue',
+                    'fill-opacity': 0.4,
+                    'fill-outline-color': 'black'
+                }
+            }, "routes");
+
+
+        });// end map load
+
+        $(document).ready(function () {
+            $("#getAjax").click(function () {
+            var ajaxfeatures;
+                $.ajax({
+                    method: 'GET',
+                    url: 'denverParks.json',
+                    crossDomain:true,
+                    dataType: 'json',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    success: function (response) {
+                        console.log(response);
+                        ajaxfeatures = response;
+                        var ajaxLayer = map.addLayer({
+                            'id': 'parcel',
+                            'type': 'fill',
+                            'source': {
+                                'type': 'geojson',
+                                'data': response
+                            },
+                            'layout': {},
+                            'paint': {
+                                'fill-color': 'green',
+                                'fill-opacity': 0.4,
+                                'fill-outline-color': 'black'
+                            }
+                        }, 'routes');
+                        // map.flyTo({ center: [-87.773994, 37.692095], zoom: 9 });
+                        // buildLocationList(ajaxfeatures)
+                    }
+                });
+            })
+            $("#sidepanelbtn").click(function(){
+                    $("#sidepanel").toggle()
+            });
+            $('#demobtn').click(function () {
+                console.log("Demo Button Clicked");
+
+                var visibility = map.getLayoutProperty('demo', 'visibility')
+                if (visibility === 'visible') {
+                    map.setLayoutProperty('demo', 'visibility', 'none');
+                } else {
+                    map.setLayoutProperty('demo', 'visibility', 'visible');
+                }
+            });
+            $('#parcelbtn').click(function () {
+                console.log("Parcel Button Clicked");
+
+                var visibility = map.getLayoutProperty('denverparcel', 'visibility')
+                if (visibility === 'visible') {
+                    map.setLayoutProperty('denverparcel', 'visibility', 'none');
+                } else {
+                    map.setLayoutProperty('denverparcel', 'visibility', 'visible');
+                }
+            });
+            var changeColor = $('#btn').click(function () {
+                var color = $('#myinput').val()
+                map.setPaintProperty('routes', 'line-color', color);
+            });
+            var urbanbtn = $('#urbanbtn');
+            urbanbtn.click(function () {
+
+                var visible = map.getLayoutProperty('urban-areas-fill', 'visibility');
+                visible == "none" ? map.setLayoutProperty('urban-areas-fill', 'visibility', 'visible') : map.setLayoutProperty('urban-areas-fill', 'visibility', 'none')
+            });
+        });
+    </script>
+
+
+
+
+
+</body>
+</html>
