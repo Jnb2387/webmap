@@ -1,37 +1,72 @@
 <!DOCTYPE html>
 <html>
-    <head>
-        <meta charset="utf-8">
-        <title>Work App</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js"></script>
-        <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css" rel="stylesheet">
-        <link href="https://www.mapbox.com/base/latest/base.css" rel="stylesheet">
-        <link href="style.css" rel="stylesheet">
-        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-        <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css" type="text/css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
-        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-        <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js"></script>
-        </head>
-    <body>
+
+<head>
+    <meta charset="utf-8">
+    <title>Work App</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <script src="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.js"></script>
+    <link href="https://api.tiles.mapbox.com/mapbox-gl-js/v0.39.1/mapbox-gl.css" rel="stylesheet">
+    <link href="https://www.mapbox.com/base/latest/base.css" rel="stylesheet">
+    <link href="style.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.css"
+        type="text/css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://api.mapbox.com/mapbox-gl-js/plugins/mapbox-gl-geocoder/v2.1.0/mapbox-gl-geocoder.min.js"></script>
+    <!--<script src="pitchtogglecontrol.js"></script>-->
+
+</head>
+
+<body>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-xs-12 col-md-9 mapboxgl-map" id="map"><div class="mapboxgl-canvas-container mapboxgl-interactive mapboxgl-touch-drag-pan mapboxgl-touch-zoom-rotate"><canvas class="mapboxgl-canvas" style="position: absolute; width: 1385px; height: 379px;" tabindex="0" aria-label="Map" width="1385" height="379"></canvas><div class="mapboxgl-user-location-dot mapboxgl-marker" style="transform: translate(680px, 228px);"></div></div><div class="mapboxgl-control-container"><div class="mapboxgl-ctrl-top-left"><div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in" type="button" aria-label="Zoom In"></button><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out" type="button" aria-label="Zoom Out"></button><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-compass" type="button" aria-label="Reset North"><span class="mapboxgl-ctrl-compass-arrow" style="transform: rotate(0deg);"></span></button></div></div><div class="mapboxgl-ctrl-top-right"><div class="mapboxgl-ctrl-geocoder mapboxgl-ctrl"><span class="geocoder-icon geocoder-icon-search"></span><input placeholder="Search" type="text"><ul class="suggestions" style="display: none;"></ul><div class="geocoder-pin-right"><button class="geocoder-icon geocoder-icon-close" aria-label="Clear"></button><span class="geocoder-icon geocoder-icon-loading"></span></div></div><div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-geolocate mapboxgl-ctrl-geolocate-background" type="button" aria-label="Geolocate" aria-pressed="true"></button></div></div><div class="mapboxgl-ctrl-bottom-left"><div class="mapboxgl-ctrl mapboxgl-ctrl-scale" style="width: 62.2048px;">2mi</div><div class="mapboxgl-ctrl" style="display: block;"><a class="mapboxgl-ctrl-logo" target="_blank" href="https://www.mapbox.com/" aria-label="Mapbox logo"></a></div></div><div class="mapboxgl-ctrl-bottom-right"><div class="mapboxgl-ctrl mapboxgl-ctrl-attrib"><a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/" target="_blank">© OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/feedback/?owner=mapbox&amp;id=streets-v10&amp;access_token=pk.eyJ1Ijoiam5iMjM4NyIsImEiOiJjaW8zb2o2bDkwMWJudmJsempjaHBvc2hrIn0.gxSz_BeDIJlbDrKExBPaEQ" target="_blank">Improve this map</a></div></div></div></div>
+            <div class="col-xs-12 col-md-9 mapboxgl-map" id="map">
+                <div class="mapboxgl-canvas-container mapboxgl-interactive mapboxgl-touch-drag-pan mapboxgl-touch-zoom-rotate">
+                    <canvas class="mapboxgl-canvas" style="position: absolute; width: 1385px; height: 379px;" tabindex="0" aria-label="Map" width="1385"
+                        height="379"></canvas>
+                    <div class="mapboxgl-user-location-dot mapboxgl-marker" style="transform: translate(680px, 228px);"></div>
+                </div>
+                <div class="mapboxgl-control-container">
+                    <div class="mapboxgl-ctrl-top-left">
+                        <div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in" type="button" aria-label="Zoom In"></button>
+                            <button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out" type="button" aria-label="Zoom Out"></button>
+                            <button
+                                class="mapboxgl-ctrl-icon mapboxgl-ctrl-compass" type="button" aria-label="Reset North"><span class="mapboxgl-ctrl-compass-arrow" style="transform: rotate(0deg);"></span></button>
+                        </div>
+                    </div>
+                    <div class="mapboxgl-ctrl-top-right">
+                        <div class="mapboxgl-ctrl-geocoder mapboxgl-ctrl"><span class="geocoder-icon geocoder-icon-search"></span><input placeholder="Search" type="text">
+                            <ul class="suggestions" style="display: none;"></ul>
+                            <div class="geocoder-pin-right"><button class="geocoder-icon geocoder-icon-close" aria-label="Clear"></button><span class="geocoder-icon geocoder-icon-loading"></span></div>
+                        </div>
+                        <div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-geolocate mapboxgl-ctrl-geolocate-background" type="button"
+                                aria-label="Geolocate" aria-pressed="true"></button></div>
+                    </div>
+                    <div class="mapboxgl-ctrl-bottom-left">
+                        <div class="mapboxgl-ctrl mapboxgl-ctrl-scale" style="width: 62.2048px;">2mi</div>
+                        <div class="mapboxgl-ctrl" style="display: block;"><a class="mapboxgl-ctrl-logo" target="_blank" href="https://www.mapbox.com/" aria-label="Mapbox logo"></a></div>
+                    </div>
+                    <div class="mapboxgl-ctrl-bottom-right">
+                        <div class="mapboxgl-ctrl mapboxgl-ctrl-attrib"><a href="https://www.mapbox.com/about/maps/" target="_blank">© Mapbox</a> <a href="http://www.openstreetmap.org/about/"
+                                target="_blank">© OpenStreetMap</a> <a class="mapbox-improve-map" href="https://www.mapbox.com/feedback/?owner=mapbox&amp;id=streets-v10&amp;access_token=pk.eyJ1Ijoiam5iMjM4NyIsImEiOiJjaW8zb2o2bDkwMWJudmJsempjaHBvc2hrIn0.gxSz_BeDIJlbDrKExBPaEQ"
+                                target="_blank">Improve this map</a></div>
+                    </div>
+                </div>
+            </div>
 
-            <a href="#" class="button icon sun btnpad" id="sidepanelbtn">Toggle Sidepanel</a>
-
-            <div class="col-xs-12 col-md-3" id="sidepanel" style="">
+            <div class="col-xs-12 col-md-3" id="sidepanel">
                 <h4 class="text-center">Features</h4>
                 <!--To change the map paint properties-->
-                <input id="myinput"> 
+                <input id="myinput">
                 <a href="#" id="btn" class="button icon sun btnpad">Change Color</a>
                 <!--Interaction Buttons-->
                 <a href="#" class="button icon sun btnpad" id="urbanbtn">Remove Urban</a>
                 <a href="#" class="button icon sun btnpad" id="getAjax">Get AJAX Data</a>
                 <a href="#" class="button icon sun btnpad" id="parcelbtn">Parcel Button</a>
                 <a href="#" class="button icon sun btnpad" id="demobtn">Demographics Button</a>
-                
+
                 <!--<div id='listings' class='listings'></div>-->
 
                 <!--Shows the JSON for any feature in the vector tile that is clicked on-->
@@ -40,7 +75,9 @@
             <!--Content displayed on the right-->
             <div class="map-overlay" id="features">
                 <h2 id="censustitle">Denver Census Info</h2>
-                <div id="pd"><p>Hover over a Census Area</p></div>
+                <div id="pd">
+                    <p>Hover over a Census Area</p>
+                </div>
             </div>
             <div class="map-overlay" id="legend"></div>
         </div>
@@ -55,14 +92,94 @@
             container: 'map',
             style: 'mapbox://styles/mapbox/streets-v10',
             center: [-105.04, 39.757],
-            zoom: 7
+            zoom: 9
         });
-//======Adding Controls to the Map.
+        //======Adding Controls to the Map.
         //Add the Geocoder.
         var geocoder = new MapboxGeocoder({
             accessToken: mapboxgl.accessToken
         });
         map.addControl(geocoder);
+        //for the 3D button toggle
+        class PitchToggle { //create a class that has the pitch and bearing
+            constructor({ bearing = 0, pitch = 70, minpitchzoom = null }) {
+                this._bearing = bearing;
+                this._pitch = pitch;
+                this._minpitchzoom = minpitchzoom;
+            }
+
+            onAdd(map) {
+                this._map = map;
+                let _this = this;
+
+                this._btn = document.createElement('button');// create the 3d button
+                this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';// set the class name for css styling
+                this._btn.type = 'button';
+                this._btn['aria-label'] = 'Toggle Pitch';//not sure
+                this._btn.onclick = function () { //when the button is clicked
+                    if (map.getPitch() === 0) {// if the pitch is 0 then run this
+                        let options = { pitch: _this._pitch, bearing: _this._bearing };// grab the pitch & bearing from the class constructor 
+                        if (_this._minpitchzoom && map.getZoom() > _this._minpitchzoom) {//dont really need
+                            options.zoom = _this._minpitchzoom;
+                        }
+                        map.easeTo(options);
+                        _this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-2d';//change button to show 2d after change
+                    } else {
+                        map.easeTo({ pitch: 0, bearing: 0 });// reset back to 2D if the pitch is not 0
+                        _this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';//change button to show 3d after change
+                    }
+                };
+                this._container = document.createElement('div');// create a div
+                this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+                this._container.appendChild(this._btn);
+
+                return this._container;
+            }
+            onRemove() {
+                this._container.parentNode.removeChild(this._container);
+                this._map = undefined;
+            }
+
+        }
+
+        //delete
+        map.addControl(new PitchToggle({ minpitchzoom: 11 }));
+
+
+        class Sidepanel { //create a class that has the pitch and bearing
+
+            onAdd(map) {
+                this._map = map;
+                let _this = this;
+                this._btn = document.createElement('button');// create the 3d button
+                // this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';// set the class name for css styling
+                this._btn.type = 'button';
+                this._btn.innerHTML ="Panel";
+                this._btn['aria-label'] = 'Toggle Pitch';//not sure
+                this._btn.onclick = function () { //when the button is clicked
+                    if ($("#sidepanel")) {// if the pitch is 0 then run this
+                        console.log("Sidepanel Toggled")
+                        $("#sidepanel").toggle()
+                    } else {
+                        console.log("something went wrong")
+                    }
+                };
+                this._container = document.createElement('div');// create a div
+                this._container.className = 'mapboxgl-ctrl mapboxgl-ctrl-group';
+                this._container.appendChild(this._btn);
+
+                return this._container;
+            }
+            onRemove() {
+                this._container.parentNode.removeChild(this._container);
+                this._map = undefined;
+            }
+
+        }
+
+
+        map.addControl(new Sidepanel('bottom-right'))
+
         //Add the zoom and nav controls.
         var nav = new mapboxgl.NavigationControl();
         map.addControl(nav, 'top-left');
@@ -78,26 +195,26 @@
             maxWidth: 80,
             unit: 'imperial'
         }));
-//=======End Controls
+        //=======End Controls
 
         // When the map loads then run all this.
         map.on('load', function () {
-        //When the user clicks on the map query every feature where the click was.
-        map.on('click', function (e) {
-            var features = map.queryRenderedFeatures(e.point);//set the click point feature to the variable.
-            let info = {};// create object to hold the data
-            let feature = features[0];// grab the first index of the features.
-            if (feature.properties) {
-                info.properties = feature.properties;// if the feature has properties set the properties to the info object
-            }
-            if (feature.layer) {// this is the map.add and map.source info.
-                info.layer = feature.layer;
-            }
-            //Display the query data in the pre tag.
-            document.getElementById('allfeatures').innerHTML = JSON.stringify(info, null, 2);
-        });
+            //When the user clicks on the map query every feature where the click was.
+            map.on('click', function (e) {
+                var features = map.queryRenderedFeatures(e.point);//set the click point feature to the variable.
+                let info = {};// create object to hold the data
+                let feature = features[0];// grab the first index of the features.
+                if (feature.properties) {
+                    info.properties = feature.properties;// if the feature has properties set the properties to the info object
+                }
+                if (feature.layer) {// this is the map.add and map.source info.
+                    info.layer = feature.layer;
+                }
+                //Display the query data in the pre tag.
+                document.getElementById('allfeatures').innerHTML = JSON.stringify(info, null, 2);
+            });
 
-//=======Geocode Point   CHANGED     
+            //=======Geocode Point   CHANGED     
             //Adding the Source of just GeoJSON for the geocoder point
             map.addSource('geocode-point', {
                 "type": "geojson",
@@ -122,9 +239,9 @@
                 console.log(ev)
                 map.getSource('geocode-point').setData(ev.result.geometry);//grab the source set above and set the location to the click spot
             });
-//=====End Geocode Point
+            //=====End Geocode Point
 
-//======LAYERS
+            //======LAYERS
             //Add 3D buildings layer.
             map.addLayer({
                 'id': '3d-buildings',
@@ -148,10 +265,6 @@
             });
 
             //Bus Routes Vector tile hosted in mapbox studio
-            // map.addSource('routes', {
-            //     "type": "vector",
-            //     "url": 'mapbox://jnb2387.2290rbfz'
-            // });
             map.addLayer({
                 "id": "routes",
                 'type': 'line',
@@ -213,43 +326,94 @@
             });
             map.on('mousemove', function (e) {//when the user moves the mouse
                 var demographics = map.queryRenderedFeatures(e.point, {//query where the user moved for features set it to a variable
-                    layers: ['demo','routes']// the layers to query when the user moves
+                    layers: ['demo', 'routes']// the layers to query when the user moves
                 });
                 if (demographics.length > 0) {//if there is any features that are returned in the query set the info in the pd element.
 
-                    document.getElementById('pd').innerHTML = '<h4><strong>Census Neighborhood: </strong><em>' + 
-                    demographics[0].properties.NBRHD_NAME + '</em></h4> \n <p><strong><em>Population: </strong>' + 
-                    demographics[0].properties.POPULATION + '</em></p> \n <p><strong><em>' + demographics[0].properties.WHITE_2010 + '</strong> Number of White</em></p><p><strong><em>' + demographics[0].properties.BLACK_2010 + '</strong> Number of African Americans</em></p>';
+                    document.getElementById('pd').innerHTML = '<h4><strong>Census Neighborhood: </strong><em>' +
+                        demographics[0].properties.NBRHD_NAME + '</em></h4> \n <p><strong><em>Population: </strong>' +
+                        demographics[0].properties.POPULATION + '</em></p> \n <p><strong><em>' + demographics[0].properties.WHITE_2010 + '</strong> Number of White</em></p><p><strong><em>' + demographics[0].properties.BLACK_2010 + '</strong> Number of African Americans</em></p>';
 
                 } else {// if there are no features under the move location.
                     document.getElementById('pd').innerHTML = '<p>Hover over a Census Area</p>';
                 }
             });
+            //3D layer with demographics
             map.addLayer({
                 "id": "demo",
-                'type': 'fill',
+                'type': 'fill-extrusion',
                 "source": "demo",
                 'source-layer': 'census_neighborhood_demograph-bnbntm',
                 "layout": {
                     'visibility': 'visible',
                 },
                 "paint": {
-                    'fill-color': 'blue',
-                    'fill-opacity': 0.4,
-                    'fill-outline-color': 'black'
+                    'fill-extrusion-base': 0,
+                    'fill-extrusion-color':
+                    {
+                        'property': 'POPULATION',
+                        'stops': [
+                            [0, 'blue'],
+                            [2000, 'gold'],
+                            [5000, 'green'],
+                            [9000, 'black'],
+                            [15169, 'red']
+                        ]
+
+                    },
+                    // '#fff',
+                    'fill-extrusion-height': {
+                        'type': 'identity',
+                        'property': 'POPULATION'
+                    },
+
+                    'fill-extrusion-opacity': .9,
+
+                    // 'extrusion-outline-color': 'black'
+
+
+
                 }
-            }, "routes");
+            }, );
+            map.addLayer({
+                "id": "demo-fills-hover",
+                "type": "fill-extrusion",
+                "source": "demo",
+                'source-layer': 'census_neighborhood_demograph-bnbntm',
+                "layout": {},
+                "paint": {
+                    'fill-extrusion-color': 'blue',
+                    'fill-extrusion-height': {
+                        'type': 'identity',
+                        'property': 'POPULATION'
+                    },
+                    'fill-extrusion-opacity': .7
+
+                },
+                "filter": ["==", "NBRHD_NAME", ""]
+            });
+
+            // When the user moves their mouse over the states-fill layer, we'll update the filter in
+            // the state-fills-hover layer to only show the matching state, thus making a hover effect.
+            map.on("mousemove", "demo", function (e) {
+                map.setFilter("demo-fills-hover", ["==", "NBRHD_NAME", e.features[0].properties.NBRHD_NAME]);
+            });
+
+            // Reset the state-fills-hover layer's filter when the mouse leaves the layer.
+            map.on("mouseleave", "demo", function () {
+                map.setFilter("demo-fills-hover", ["==", "NBRHD_NAME", ""]);
+            });
 
 
         });// end map load
 
         $(document).ready(function () {
             $("#getAjax").click(function () {
-            var ajaxfeatures;
+                var ajaxfeatures;
                 $.ajax({
                     method: 'GET',
                     url: 'denverParks.json',
-                    crossDomain:true,
+                    crossDomain: true,
                     dataType: 'json',
                     headers: {
                         'Access-Control-Allow-Origin': '*'
@@ -276,9 +440,7 @@
                     }
                 });
             })
-            $("#sidepanelbtn").click(function(){
-                    $("#sidepanel").toggle()
-            });
+
             $('#demobtn').click(function () {
                 console.log("Demo Button Clicked");
 
@@ -317,4 +479,5 @@
 
 
 </body>
+
 </html>
