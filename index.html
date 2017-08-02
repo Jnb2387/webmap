@@ -32,8 +32,7 @@
                     <div class="mapboxgl-ctrl-top-left">
                         <div class="mapboxgl-ctrl mapboxgl-ctrl-group"><button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-in" type="button" aria-label="Zoom In"></button>
                             <button class="mapboxgl-ctrl-icon mapboxgl-ctrl-zoom-out" type="button" aria-label="Zoom Out"></button>
-                            <button
-                                class="mapboxgl-ctrl-icon mapboxgl-ctrl-compass" type="button" aria-label="Reset North"><span class="mapboxgl-ctrl-compass-arrow" style="transform: rotate(0deg);"></span></button>
+                            <button class="mapboxgl-ctrl-icon mapboxgl-ctrl-compass" type="button" aria-label="Reset North"><span class="mapboxgl-ctrl-compass-arrow" style="transform: rotate(0deg);"></span></button>
                         </div>
                     </div>
                     <div class="mapboxgl-ctrl-top-right">
@@ -154,7 +153,7 @@
                 this._btn = document.createElement('button');// create the 3d button
                 // this._btn.className = 'mapboxgl-ctrl-icon mapboxgl-ctrl-pitchtoggle-3d';// set the class name for css styling
                 this._btn.type = 'button';
-                this._btn.innerHTML ="Panel";
+                this._btn.innerHTML = "Panel";
                 this._btn['aria-label'] = 'Toggle Pitch';//not sure
                 this._btn.onclick = function () { //when the button is clicked
                     if ($("#sidepanel")) {// if the pitch is 0 then run this
@@ -263,6 +262,9 @@
                     'fill-extrusion-opacity': .6
                 }
             });
+
+
+
 
             //Bus Routes Vector tile hosted in mapbox studio
             map.addLayer({
@@ -419,22 +421,58 @@
                         'Access-Control-Allow-Origin': '*'
                     },
                     success: function (response) {
-                        console.log(response);
-                        ajaxfeatures = response;
+
+                        //Add 3D another layer.
                         var ajaxLayer = map.addLayer({
-                            'id': 'parcel',
-                            'type': 'fill',
+
+                            "id": "my3d",
+                            'type': 'fill-extrusion',
                             'source': {
                                 'type': 'geojson',
                                 'data': response
                             },
-                            'layout': {},
-                            'paint': {
-                                'fill-color': 'green',
-                                'fill-opacity': 0.4,
-                                'fill-outline-color': 'black'
+                            // 'source-layer': 'census_neighborhood_demograph-bnbntm',
+                            "layout": {
+                                'visibility': 'visible',
+                            },
+                            "paint": {
+                                'fill-extrusion-base': 0,
+                                'fill-extrusion-color':
+                                {
+                                    'property': 'FID_1',
+                                    'stops': [
+                                        [0, 'blue'],
+                                        [2000, 'gold'],
+                                        [5000, 'green'],
+                                        [9000, 'black'],
+                                        [15169, 'red']
+                                    ]
+                                },
+                                'fill-extrusion-height': {
+                                    'type': 'identity',
+                                    'property': 'FID_1'
+                                },
+                                'fill-extrusion-opacity': .9,
                             }
-                        }, 'routes');
+                            });
+
+
+                        console.log(response);
+                        ajaxfeatures = response;
+                        // var ajaxLayer = map.addLayer({
+                        //     'id': 'parcel',
+                        //     'type': 'fill',
+                        //     'source': {
+                        //         'type': 'geojson',
+                        //         'data': response
+                        //     },
+                        //     'layout': {},
+                        //     'paint': {
+                        //         'fill-color': 'green',
+                        //         'fill-opacity': 0.4,
+                        //         'fill-outline-color': 'black'
+                        //     }
+                        // }, 'routes');
                         // map.flyTo({ center: [-87.773994, 37.692095], zoom: 9 });
                         // buildLocationList(ajaxfeatures)
                     }
