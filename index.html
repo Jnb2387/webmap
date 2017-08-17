@@ -63,6 +63,7 @@
                 <!--Interaction Buttons-->
                 <a href="#" class="button icon sun btnpad" id="urbanbtn">Remove Urban</a>
                 <a href="#" class="button icon sun btnpad" id="getAjax">Get AJAX Data</a>
+                <a href="#" class="button icon sun btnpad" id="getcamp">Get CAMP Data</a>
                 <a href="#" class="button icon sun btnpad" id="parcelbtn">Parcel Button</a>
                 <a href="#" class="button icon sun btnpad" id="demobtn">Demographics Button</a>
 
@@ -266,16 +267,15 @@
 
 
 
-            //Bus Routes Vector tile hosted in mapbox studio
+            //glacier trails Vector tile hosted in mapbox studio
             map.addLayer({
-                "id": "routes",
+                "id": "trails",
                 'type': 'line',
-                // "source": "routes",
                 'source': {
                     "type": "vector",
-                    "url": 'mapbox://jnb2387.2290rbfz'
+                    "url": 'mapbox://jnb2387.7b98tlt7'
                 },
-                'source-layer': 'BusRoutes-d74880',
+                'source-layer': 'glaciertrailsgeojson',
                 "layout": {
                     'visibility': 'visible',
                     "line-join": "round",
@@ -287,21 +287,7 @@
                 }
             }, "road-label-small");
 
-            //MAYBE delete
-            //The Urban outline Layer
-            var mylayer = map.addLayer({
-                'id': 'urban-areas-fill',
-                'type': 'fill',
-                'source': {
-                    'type': 'geojson',
-                    'data': 'https://d2ad6b4ur7yvpq.cloudfront.net/naturalearth-3.3.0/ne_50m_urban_areas.geojson'
-                },
-                'layout': {},
-                'paint': {
-                    'fill-color': '#f08',
-                    'fill-opacity': 0.4
-                }
-            }, 'routes');
+
             //Parcel Vector Tile layer
             map.addSource('denverparcel', {
                 "type": "vector",
@@ -320,7 +306,7 @@
                     'fill-opacity': 0.4,
                     'fill-outline-color': 'black'
                 }
-            }, "routes");
+            }, "trails");
             //Denver Demographics Layer
             map.addSource('demo', {
                 "type": "vector",
@@ -328,7 +314,7 @@
             });
             map.on('mousemove', function (e) {//when the user moves the mouse
                 var demographics = map.queryRenderedFeatures(e.point, {//query where the user moved for features set it to a variable
-                    layers: ['demo', 'routes']// the layers to query when the user moves
+                    layers: ['demo', 'trails']// the layers to query when the user moves
                 });
                 if (demographics.length > 0) {//if there is any features that are returned in the query set the info in the pd element.
 
@@ -421,7 +407,6 @@
                         'Access-Control-Allow-Origin': '*'
                     },
                     success: function (response) {
-
                         //Add 3D another layer.
                         var ajaxLayer = map.addLayer({
 
@@ -431,7 +416,6 @@
                                 'type': 'geojson',
                                 'data': response
                             },
-                            // 'source-layer': 'census_neighborhood_demograph-bnbntm',
                             "layout": {
                                 'visibility': 'visible',
                             },
@@ -454,31 +438,48 @@
                                 },
                                 'fill-extrusion-opacity': .9,
                             }
-                            });
+                        });
 
 
                         console.log(response);
                         ajaxfeatures = response;
-                        // var ajaxLayer = map.addLayer({
-                        //     'id': 'parcel',
-                        //     'type': 'fill',
-                        //     'source': {
-                        //         'type': 'geojson',
-                        //         'data': response
-                        //     },
-                        //     'layout': {},
-                        //     'paint': {
-                        //         'fill-color': 'green',
-                        //         'fill-opacity': 0.4,
-                        //         'fill-outline-color': 'black'
-                        //     }
-                        // }, 'routes');
-                        // map.flyTo({ center: [-87.773994, 37.692095], zoom: 9 });
-                        // buildLocationList(ajaxfeatures)
+
                     }
                 });
             })
+            $("#getcamp").click(function () {
+                console.log('getting camps')
+                var ajaxfeatures;
+                $.ajax({
+                    method: 'GET',
+                    url: 'campsites.json',
+                    crossDomain: true,
+                    dataType: 'json',
+                    headers: {
+                        'Access-Control-Allow-Origin': '*'
+                    },
+                    success: function (response) {
+                        console.log(response)
+                        map.addSource('camp',{
+                            'type': "geojson",
+                            "data": response
+                        })
 
+                        map.addLayer({
+                            'id': 'camp',
+                            'source':'camp',
+                            'type': 'circle',
+                            "layout": {
+                                'visibility': 'visible',
+                            },
+                            'paint': {
+                               'circle-radius': 100,
+                                'circle-color': "#007cbf",
+                            }
+                        });
+                    }
+                })
+            })
             $('#demobtn').click(function () {
                 console.log("Demo Button Clicked");
 
@@ -501,13 +502,13 @@
             });
             var changeColor = $('#btn').click(function () {
                 var color = $('#myinput').val()
-                map.setPaintProperty('routes', 'line-color', color);
+                map.setPaintProperty('trails', 'line-color', color);
             });
             var urbanbtn = $('#urbanbtn');
             urbanbtn.click(function () {
 
-                var visible = map.getLayoutProperty('urban-areas-fill', 'visibility');
-                visible == "none" ? map.setLayoutProperty('urban-areas-fill', 'visibility', 'visible') : map.setLayoutProperty('urban-areas-fill', 'visibility', 'none')
+                var visible = map.getLayoutProperty('camps', 'visibility');
+                visible == "none" ? map.setLayoutProperty('camps', 'visibility', 'visible') : map.setLayoutProperty('camps', 'visibility', 'none')
             });
         });
     </script>
